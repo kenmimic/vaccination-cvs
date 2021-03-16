@@ -111,7 +111,7 @@ available_cities = re.findall(r"\"city\":\"(\w+)\",\"state\":\"CA\",\"status\":\
 if not available_cities:
   print("No Available Found")
 else:
-  print("Listing Vaccine Cities")
+  print("List Vaccine Cities")
 #print(available_cities)
   for city in available_cities:
     print("Available City: {}".format(city))
