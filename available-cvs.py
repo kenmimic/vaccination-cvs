@@ -105,9 +105,13 @@ cookies = {
 'utag_main':'v_id:017827bb686600016672385a57af02073006006b00fb8$_sn:1$_ss:1$_st:1615579653753$vapi_domain:cvs.com' }
 
 r = requests.get(target_url, headers=headers, cookies=cookies)
-#print(r)
+print(r)
 #print(r.text)
 available_cities = re.findall(r"\"city\":\"(\w+)\",\"state\":\"CA\",\"status\":\"Available\"",r.text)
+if not available_cities:
+  print("No Available Found")
+else:
+  print("Listing Vaccine Cities")
 #print(available_cities)
-for city in available_cities:
-  print("Available City: {}".format(city))
+  for city in available_cities:
+    print("Available City: {}".format(city))
