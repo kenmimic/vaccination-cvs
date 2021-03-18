@@ -1,4 +1,4 @@
-import requests,re,urllib
+import requests,re
 
 target_url = 'https://www.cvs.com/immunizations/covid-19-vaccine.vaccine-status.CA.json?vaccineinfo'
 
@@ -111,7 +111,7 @@ available_cities = re.findall(r"\"city\":\"(\w+)\",\"state\":\"CA\",\"status\":\
 if not available_cities:
   print("No Available Found")
 else:
-  print("List Vaccine Cities")
+  print("{} CA Cities have vaccines\n".format(len(available_cities)))
 #print(available_cities)
   for city in available_cities:
     print("Available City: {}".format(city))
