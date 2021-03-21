@@ -1,4 +1,5 @@
 import requests,re
+from datetime import datetime
 
 target_url = 'https://www.cvs.com/immunizations/covid-19-vaccine.vaccine-status.CA.json?vaccineinfo'
 
@@ -111,6 +112,8 @@ available_cities = re.findall(r"\"city\":\"(\w+)\",\"state\":\"CA\",\"status\":\
 if not available_cities:
   print("No Available Found")
 else:
+  now = datetime.now()
+  print("Check Time: {}".format(now.strftime("%H:%M:%S %m/%d/%Y ")))
   print("{} CA Cities have vaccines\n".format(len(available_cities)))
 #print(available_cities)
   for city in available_cities:
