@@ -110,7 +110,7 @@ print(r)
 #print(r.text)
 available_cities = re.findall(r"\"city\":\"(\w+)\",\"state\":\"CA\",\"status\":\"Available\"",r.text)
 if not available_cities:
-  print("No Available Found")
+  print("No Availability Found")
 else:
   now = datetime.now()
   print("Check Time: {}".format(now.strftime("%H:%M:%S %m/%d/%Y ")))
