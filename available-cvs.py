@@ -1,4 +1,4 @@
-import requests,re
+import requests,re,os,json,time
 from datetime import datetime
 
 target_url = 'https://www.cvs.com/immunizations/covid-19-vaccine.vaccine-status.CA.json?vaccineinfo'
@@ -105,16 +105,73 @@ cookies = {
 's_sq':'%5B%5BB%5D%5D',
 'utag_main':'v_id:017827bb686600016672385a57af02073006006b00fb8$_sn:1$_ss:1$_st:1615579653753$vapi_domain:cvs.com' }
 
-r = requests.get(target_url, headers=headers, cookies=cookies)
-print(r)
-#print(r.text)
-available_cities = re.findall(r"\"city\":\"(\w+)\",\"state\":\"CA\",\"status\":\"Available\"",r.text)
-if not available_cities:
-  print("No Availability Found")
-else:
-  now = datetime.now()
-  print("Check Time: {}".format(now.strftime("%H:%M:%S %m/%d/%Y ")))
-  print("{} CA Cities have vaccines\n".format(len(available_cities)))
-#print(available_cities)
-  for city in available_cities:
-    print("Available City: {}".format(city))
+nearby_cities_json =""" 
+{
+    "SAN FRANCISCO":"",
+    "BRENTWOOD":"",
+    "FRESNO":"(1.20 miles)",
+    "Saratoga":"(3.72 miles)",
+    "Campbell":"(4.42 miles)",
+    "Redwood Estates":"(4.91 miles)",
+    "Meridian":"(6.67 miles)",
+    "Monte Vista, ":"(7.25 miles)",
+    "Permanente":"(7.25 miles)",
+    "Cupertino":"(7.39 miles)",
+    "San Jose":"(8.69 miles)",
+    "New Almaden":"(9.16 miles)",
+    "Lompico":"(9.40 miles)",
+    "Big Basin":"(10.27 miles)",
+    "Sunnyvale":"(10.41 miles)",
+    "Boulder Creek":"(10.70 miles)",
+    "Brookdale":"(11.04 miles)",
+    "Coyote":"(12.54 miles)",
+    "Blossom Valley":"(12.69 miles)",
+    "Felton":"(13.29 miles)",
+    "Los Altos":"(13.39 miles)",
+    "Alviso":"(13.80 miles)",
+    "Los Altos Hills":"(13.89 miles)",
+    "Milpitas":"(14.44 miles)",
+    "Paradise Park":"(15.45 miles)",
+    "Soquel":"(16.51 miles)",
+    "Stanford":"(17.20 miles)",
+    "Bonny Doon":"(17.28 miles)",
+    "Capitola":"(17.43 miles)",
+    "Palo Alto":"(17.54 miles)",
+    "La Honda":"(17.70 miles)",
+    "Santa Cruz":"(17.72 miles)",
+    "Seacliff":"(17.73 miles)",
+    "Seascape":"(17.73 miles)",
+    "Rio Del Mar":"(18.31 miles)",
+    "Loma Mar":"(18.65 miles)",
+    "Morgan Hill":"(18.85 miles)",
+    "Corralitos":"(18.90 miles)",
+    "East Palo Alto":"(19.09 miles)",
+    "West Menlo Park":"(19.10 miles)",
+    "Davenport":"(19.11 miles)",
+    "Mount Hamilton":"(19.37 miles)",
+    "Menlo Park":"(19.43 miles)"
+}
+"""
+
+while(1):
+    r = requests.get(target_url, headers=headers, cookies=cookies)
+    print(r)
+    #print(r.text)
+    available_cities = re.findall(r"\"city\":\"(\w+)\",\"state\":\"CA\",\"status\":\"Available\"",r.text)
+    now = datetime.now()
+    print("Check Time: {}".format(now.strftime("%H:%M:%S %m/%d/%Y ")))
+    nearby_available_count=0
+    #print(available_cities)
+    nearby_cities = json.loads(nearby_cities_json)
+    for k,v in nearby_cities.items(): 
+        if (k.upper() in available_cities):
+            print("{0} has an appointment and is {1} miles away".format( k, v))
+            nearby_available_count = nearby_available_count + 1
+            os.system("say Vaccine is available in {0}".format(k))
+
+
+    print("{} CA Cities have vaccines\n".format(len(available_cities)))
+    print("{0} local appointments available".format(nearby_available_count))
+    print("Sleeping...")
+    time.sleep(15)
+
