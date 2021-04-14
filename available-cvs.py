@@ -171,6 +171,8 @@ while(1):
 
 
     print("{} CA Cities have vaccines\n".format(len(available_cities)))
+    for city in available_cities:
+      print("Available City: {}".format(city))
     print("{0} local appointments available".format(nearby_available_count))
     print("Sleeping...")
     time.sleep(15)
