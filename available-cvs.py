@@ -1,4 +1,4 @@
-import requests,re,os,json,time
+import requests,re,os,json,time,sys,select
 from datetime import datetime
 
 target_url = 'https://www.cvs.com/immunizations/covid-19-vaccine.vaccine-status.CA.json?vaccineinfo'
@@ -107,9 +107,8 @@ cookies = {
 
 nearby_cities_json =""" 
 {
-    "SAN FRANCISCO":"",
-    "BRENTWOOD":"",
-    "FRESNO":"(1.20 miles)",
+    "Fremont":"(1.20 miles)",
+    "Palo Alto":"(1.20 miles)",
     "Saratoga":"(3.72 miles)",
     "Campbell":"(4.42 miles)",
     "Redwood Estates":"(4.91 miles)",
@@ -174,6 +173,9 @@ while(1):
     for city in available_cities:
       print("Available City: {}".format(city))
     print("{0} local appointments available".format(nearby_available_count))
-    print("Sleeping...")
+    print("Sleeping.15s or Enter to break...")
     time.sleep(15)
+    if sys.stdin in select.select([sys.stdin], [], [], 0)[0]:
+      line = input()
+      break
 
